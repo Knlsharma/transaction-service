@@ -18,7 +18,6 @@ It leverages **Spring Data JPA**, **MySQL**, **Testcontainers**, and **Docker Co
 - [Local Development](#-local-development)
 - [Production Setup](#-production-setup)
 - [API Endpoints](#-api-endpoints)
-- [Database Details](#-database-details)
 - [Running Tests](#-running-tests)
 - [Arch Diagrams](#-arch-diagrams)
 
