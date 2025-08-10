@@ -49,7 +49,7 @@ pom.xml
 ## 🚀 Quick Start
 
 ```bash
-# 1️⃣ Clone repository
+# 1️⃣ Clone repository and it's currently having single branch to avoid any issues which main for now local test and production
 git clone https://github.com/Knlsharma/transaction-service
 cd transaction-service
 
