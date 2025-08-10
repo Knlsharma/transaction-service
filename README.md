@@ -113,17 +113,7 @@ Run with **Docker Compose** (prod profile):
 | `/transactions/{transactionId}`        | GET    | Get transaction details        | -                                                                         | 200 OK           |
 | `/transactions/account/{accountId}`    | GET    | Get transactions for account   | -                                                                         | 200 OK           |
 
----
 
-## 🗄 Database Details
-
-| Item            | Value         |
-|-----------------|--------------|
-| Host            | `localhost`  |
-| Port            | `3306`       |
-| User            | `root`       |
-| Password        | `root` (default for local/test) |
-| Database Name   | `transactions_db` |
 
 ---
 
