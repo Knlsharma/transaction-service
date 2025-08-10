@@ -155,6 +155,6 @@ sh run-tests.sh
 
 ## 🧪 Arch Diagrams
 
-![Diagram1.png](img1.png)
+![Diagram1.png](/app/img1.png)
 
-![Diagram2.png](img2.png)
+![Diagram2.png](/app/img2.png)
