@@ -27,21 +27,21 @@ import static com.transaction_service.app.constant.AppConstant.*;
 public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateDocumentException.class)
     public ResponseEntity<String> handleDuplicateDocument(DuplicateDocumentException ex) {
-//           log.error("Duplicate document: {}", ex.getLocalizedMessage());
+           log.error("Duplicate document: {}", ex.getLocalizedMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(ex.getLocalizedMessage());
     }
 
     @ExceptionHandler(AccountNotFoundException.class)
     public ResponseEntity<String> handleAccountNotFound(AccountNotFoundException ex) {
-//        log.error("Account not found: {}", ex.getLocalizedMessage());
+        log.error("Account not found: {}", ex.getLocalizedMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ex.getLocalizedMessage());
     }
 
     @ExceptionHandler(InvalidTransactionException.class)
     public ResponseEntity<String> handleInvalidTransaction(InvalidTransactionException ex) {
-//        log.error("Invalid transaction: {}", ex.getLocalizedMessage());
+        log.error("Invalid transaction: {}", ex.getLocalizedMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(TRANSACTION_EXCEPTION_MSG);
     }
@@ -52,14 +52,14 @@ public class GlobalExceptionHandler {
                 .map(FieldError::getDefaultMessage)
                 .collect(Collectors.joining(", "));
 
-//        log.error("Validation error: {}", errorMessage);
+        log.error("Validation error: {}", errorMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body("VALIDATION_ERROR");
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleInternalServerError(Exception ex) {
-//        log.error("Internal Server Error: ", ex);
+        log.error("Internal Server Error: ", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(INTERNAL_SERVER_MSG);
     }
@@ -70,40 +70,40 @@ public class GlobalExceptionHandler {
         String message = ex.getConstraintViolations().stream()
                 .map(cv -> cv.getPropertyPath() + ": " + cv.getMessage())
                 .collect(Collectors.joining(", "));
-//        log.error("Constraint violation: {}", message);
+        log.error("Constraint violation: {}", message);
         return ResponseEntity.badRequest().body(message);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleMalformedJson(HttpMessageNotReadableException ex) {
-//        log.error("Malformed JSON request: {}", ex.getLocalizedMessage());
+        log.error("Malformed JSON request: {}", ex.getLocalizedMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body("Malformed JSON request or missing/invalid fields");
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<String> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
-//        log.error("Request method not supported: {}", ex.getMethod());
+        log.error("Request method not supported: {}", ex.getMethod());
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
                 .body("HTTP method not allowed");
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<String> handleMissingParams(MissingServletRequestParameterException ex) {
-//        log.error("Missing request parameter: {}", ex.getParameterName());
+        log.error("Missing request parameter: {}", ex.getParameterName());
         return ResponseEntity.badRequest().body("Missing required parameter: " + ex.getParameterName());
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<String> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
-//        log.error("Path or query param type mismatch: {}", ex.getLocalizedMessage());
+        log.error("Path or query param type mismatch: {}", ex.getLocalizedMessage());
         return ResponseEntity.badRequest()
                 .body("Invalid value for parameter '" + ex.getName() + "'");
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrity(DataIntegrityViolationException ex) {
-//        log.error("Database constraint violation: {}", ex.getLocalizedMessage());
+        log.error("Database constraint violation: {}", ex.getLocalizedMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body("Database constraint violation");
     }
@@ -111,7 +111,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HandlerMethodValidationException.class)
     public ResponseEntity<String> handleHandlerMethodValidation(HandlerMethodValidationException ex) {
         String message = ex.getLocalizedMessage();
-//        log.error("Method parameter validation error: {}", message);
+        log.error("Method parameter validation error: {}", message);
         return ResponseEntity.badRequest().body(message);
     }
 

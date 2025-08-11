@@ -35,13 +35,13 @@ public class AccountServiceImpl implements AccountService {
 
 
         Account savedAccount = accountRepository.save(account);
-//        log.info("Saved account with Id :  {}", savedAccount.getAccountId());
+        log.info("Saved account with Id :  {}", savedAccount.getAccountId());
         return new AccountResponse(savedAccount.getAccountId(), savedAccount.getDocumentNumber());
     }
 
 
     public AccountResponse fetchAccountDetails(Long accountId) {
-//        log.info("Get account with Id :  {}", accountId);
+        log.info("Get account with Id :  {}", accountId);
         Account account = getAccountById(accountId);
         return new AccountResponse(account.getAccountId(), account.getDocumentNumber());
     }

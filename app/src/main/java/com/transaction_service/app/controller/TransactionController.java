@@ -26,7 +26,7 @@ public class TransactionController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public TransactionResponse createTransaction(@Valid @RequestBody TransactionRequest request) {
-//        log.info("Received request to create transaction: {}", request.toString());
+        log.info("Received request to create transaction: {}", request.toString());
         return transactionService.createTransaction(request);
     }
 }

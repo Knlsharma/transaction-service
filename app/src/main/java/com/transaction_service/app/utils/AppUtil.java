@@ -13,14 +13,14 @@ public class AppUtil {
         try {
             return OperationType.fromId(operationTypeId);
         } catch (IllegalArgumentException e) {
-//            log.error("Invalid operation type: {}", operationTypeId);
+            log.error("Invalid operation type: {}", operationTypeId);
             throw new InvalidTransactionException("Invalid operation type: " + operationTypeId);
         }
     }
 
     public static BigDecimal validateAndConvertAmount(BigDecimal amount, OperationType type) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-//            log.error("Invalid amount: {}", amount);
+            log.error("Invalid amount: {}", amount);
             throw new InvalidTransactionException("Entered amount should be always positive");
         }
 

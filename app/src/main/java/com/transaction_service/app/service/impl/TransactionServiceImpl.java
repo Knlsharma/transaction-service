@@ -58,8 +58,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     private TransactionResponse saveTransaction(Transaction transaction) {
         Transaction saved = transactionRepository.save(transaction);
-//        log.info("Created transaction ID: {} for account ID: {}",
-//                saved.getTransactionId(), saved.getAccount().getAccountId());
+        log.info("Created transaction ID: {} for account ID: {}",
+                saved.getTransactionId(), saved.getAccount().getAccountId());
 
         return new TransactionResponse(
                 saved.getTransactionId(),

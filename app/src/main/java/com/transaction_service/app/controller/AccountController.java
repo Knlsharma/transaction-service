@@ -31,7 +31,7 @@ public class AccountController {
     ) {
 
         AccountResponse response = accountService.processAccountRequest(request);
-//        log.info("Able to create account for request  : {} and response : {}", request.toString(), response.toString());
+        log.info("Able to create account for request  : {} and response : {}", request.toString(), response.toString());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(response);
