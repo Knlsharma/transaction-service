@@ -35,9 +35,9 @@ run_single_test() {
     echo -e "\n${YELLOW}🚀 Running $test_name...${NC}"
 
     if [ "$verbose" = true ]; then
-        ./mvnw test -Dtest=$test_class -X
+        mvn test -Dtest=$test_class -X
     else
-        ./mvnw test -Dtest=$test_class
+        mvn test -Dtest=$test_class
     fi
 
     if [ $? -eq 0 ]; then
@@ -110,7 +110,7 @@ case ${1:-menu} in
                     ;;
                 5)
                     echo "Generating test report..."
-                    ./mvnw test surefire-report:report
+                    mvn test surefire-report:report
                     echo "Report generated in target/site/surefire-report.html"
                     ;;
                 6)

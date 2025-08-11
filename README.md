@@ -12,14 +12,37 @@ It leverages **Spring Data JPA**, **MySQL**, **Testcontainers**, and **Docker Co
 
 ## 📚 Table of Contents
 
-- [Frameworks Used](#-frameworks-used)
-- [Maven Dependencies](#-maven-dependencies)
-- [Quick Start](#-quick-start)
-- [Local Development](#-local-development)
-- [Production Setup](#-production-setup)
-- [API Endpoints](#-api-endpoints)
-- [Running Tests](#-running-tests)
-- [Arch Diagrams](#-arch-diagrams)
+1. [Prerequisites](#-prerequisites)
+2. [Frameworks Used](#-frameworks-used)
+3. [Maven Dependencies](#-maven-dependencies)
+4. [Quick Start](#-quick-start)
+5. [Production Setup (Recommended)](#-production-setup-profile-prod-with-docker-compose)
+6. [Prod Deployment (Direct Run)](#-prod-deployment)
+7. [API Endpoints](#-api-endpoints)
+8. [cURL Examples](#-curl-examples)
+9. [Running Tests](#-running-tests)
+10. [Useful Links](#-useful-links)
+11. [Arch Diagrams](#-arch-diagrams)
+
+---
+
+## 🛠 Prerequisites
+
+Ensure the following are installed on your system before starting:
+
+- **Java 17+** → [Download](https://adoptium.net/) *(Required)*
+- **Maven 3.8+** → [Download](https://maven.apache.org/download.cgi)
+- **Docker & Docker Compose** → [Install](https://docs.docker.com/get-docker/) *(Required)*
+- **Git** → [Download](https://git-scm.com/downloads) *(Required)*
+
+You can verify installation with:
+```
+java -version
+mvn -version  # or mvn -version if Maven installed globally
+docker --version
+docker compose version
+git --version
+```
 
 ---
 
@@ -41,58 +64,57 @@ It leverages **Spring Data JPA**, **MySQL**, **Testcontainers**, and **Docker Co
 The Maven dependency configurations can be found in:
 
 ```
-pom.xml
+app/pom.xml
 ```
 
 ---
 
 ## 🚀 Quick Start
 
-```bash
-# 1️⃣ Clone repository and it's currently having single branch to avoid any issues which main for now local test and production
+### 1️⃣ Clone repository
+```
 git clone https://github.com/Knlsharma/transaction-service
-cd transaction-service
-
-# 2️⃣ Start services (Docker Compose - prod profile)
-./start.sh
-
-# 3️⃣ Access Swagger UI
-http://127.0.0.1:8080/swagger-ui/index.html#/
+cd transaction-service/app
 ```
+
+### 2️⃣ Choose a profile
+
+- **`local` profile** → Runs with **Testcontainers** (spins up MySQL in Docker automatically for development/testing).
+- **`prod` profile** → Runs with **Docker Compose** for production-like setup.
 
 ---
 
-## 🖥 Local Development
+## 🏭 Production Setup (Profile: `prod` with Docker Compose) — **Recommended**
 
-Run with **Testcontainers** (local profile):
+Run with **Docker Compose**:
 
-```bash
-./mvnw spring-boot:run -Dspring-boot.run.profiles=local
 ```
-
-This will:
-- Spin up MySQL Testcontainer automatically
-- Load `src/resources/create_sample_data.sql` into DB
-
----
-
-## 🏭 Production Setup
-
-Run with **Docker Compose** (prod profile):
-
-```bash
+cd app
 ./start.sh
 ```
 
 **Stop (preserve data)**
-```bash
+```
+cd app
 ./stop.sh
 ```
 
-**Full reset (delete volumes)**
-```bash
-./stop.sh && docker-compose down -v
+**Full reset (delete volumes & data)**
 ```
+cd app
+./stop.sh && docker compose down -v
+```
+
+---
+
+## 🖥 Prod Deployment (Profile: `prod` Direct Run)
+
+```
+cd app
+mvn spring-boot:run -Dspring-boot.run.profiles=prod
+```
+
+> **Note:** This runs using the configuration intended for production but without Docker Compose orchestration.
 
 ---
 
@@ -103,34 +125,78 @@ Run with **Docker Compose** (prod profile):
 | Endpoint                | Method | Description         | Request Body                                    | Success Response |
 |-------------------------|--------|--------------------|-------------------------------------------------|------------------|
 | `/accounts`             | POST   | Create new account | `{ "document_number": "12345678900" }`          | 201 Created      |
-| `/accounts/{accountId}` | GET    | Get account details| -                                               | 200 OK           |
+| `/accounts/{accountId}` | GET    | Get account details| –                                               | 200 OK           |
 
 ### 💰 Transaction Processing
 
 | Endpoint                               | Method | Description                    | Request Body                                                              | Success Response |
 |----------------------------------------|--------|--------------------------------|---------------------------------------------------------------------------|------------------|
 | `/transactions`                        | POST   | Create new transaction         | `{ "account_id": 1, "operation_type_id": 4, "amount": 100.00 }`           | 201 Created      |
-| `/transactions/{transactionId}`        | GET    | Get transaction details        | -                                                                         | 200 OK           |
-| `/transactions/account/{accountId}`    | GET    | Get transactions for account   | -                                                                         | 200 OK           |
+| `/transactions/{transactionId}`        | GET    | Get transaction details        | –                                                                         | 200 OK           |
+| `/transactions/account/{accountId}`    | GET    | Get transactions for account   | –                                                                         | 200 OK           |
 
+---
 
+## 📡 cURL Examples
+
+### Create Account
+```
+curl -X POST "http://127.0.0.1:8080/accounts" \
+     -H "Content-Type: application/json" \
+     -d '{"document_number": "12345678900"}'
+```
+
+### Get Account by ID
+```
+curl -X GET "http://127.0.0.1:8080/accounts/1"
+```
+
+### Create Transaction
+```
+curl -X POST "http://127.0.0.1:8080/transactions" \
+     -H "Content-Type: application/json" \
+     -d '{"account_id": 1, "operation_type_id": 4, "amount": 100.00}'
+```
+
+### Get Transaction by ID
+```
+curl -X GET "http://127.0.0.1:8080/transactions/1"
+```
+
+### Get All Transactions for Account
+```
+curl -X GET "http://127.0.0.1:8080/transactions/account/1"
+```
+
+### Health Check
+```
+curl -X GET "http://127.0.0.1:8080/actuator/health"
+```
+
+### All Actuator Endpoints
+```
+curl -X GET "http://127.0.0.1:8080/actuator"
+```
 
 ---
 
 ## 🧪 Running Tests
 
-### Unit tests (MockMvc)
-```bash
-./mvnw test -Dtest=com.transaction_service.app.integration_and_unit.AccountTests
+### Integration tests for Accounts (Testcontainers)
+```
+cd app
+mvn -Dtest=com.transaction_service.app.integration_and_unit.AccountTests test
 ```
 
-### Integration tests (Testcontainers)
-```bash
-./mvnw test -Dtest=com.transaction_service.app.integration_and_unit.TransactionTests
+### Integration tests for Transactions (Testcontainers)
+```
+cd app
+mvn -Dtest=com.transaction_service.app.integration_and_unit.TransactionTests test
 ```
 
 ### All tests
-```bash
+```
+cd app
 sh run-tests.sh
 ```
 
@@ -139,9 +205,9 @@ sh run-tests.sh
 ## 🔍 Useful Links
 
 - **Swagger UI:** [http://127.0.0.1:8080/swagger-ui/index.html#/](http://127.0.0.1:8080/swagger-ui/index.html#/)
-- **Health Check:** [http://127.0.0.1:8080/actuator/health](http://127.0.0.1:8080/actuator/health)  
+- **Health Check:** [http://127.0.0.1:8080/actuator/health](http://127.0.0.1:8080/actuator/health)
 
-
+---
 
 ## 🧪 Arch Diagrams
 
