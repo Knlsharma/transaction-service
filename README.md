@@ -72,9 +72,13 @@ app/pom.xml
 ## 🚀 Quick Start
 
 ### 1️⃣ Clone repository
+> **Note:** This project uses a single branch (`main`). After cloning, you’ll already be on `main` by default, so you usually don’t need to switch branches — the `git checkout main` below is just for safety.
+
 ```
 git clone https://github.com/Knlsharma/transaction-service
-cd transaction-service/app
+cd transaction-service
+git checkout main
+cd app
 ```
 
 ### 2️⃣ Choose a profile
