@@ -25,6 +25,7 @@ It leverages **Spring Data JPA**, **MySQL**, **Testcontainers**, and **Docker Co
 
 ## 🛠 Frameworks Used
 
+- **Maven** - Maven tool for building
 - **Spring Boot** — Backend application framework
 - **Spring Data JPA** — ORM for database interactions
 - **Testcontainers** — Integration testing with containerized MySQL
